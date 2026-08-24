@@ -1,0 +1,53 @@
+# ===== Backend (Spring/Maven) =====
+backend/HELP.md
+backend/target/
+!backend/.mvn/wrapper/maven-wrapper.jar
+!backend/**/src/main/**/target/
+!backend/**/src/test/**/target/
+backend/.env
+
+### STS ###
+backend/.apt_generated
+backend/.classpath
+backend/.factorypath
+backend/.project
+backend/.settings
+backend/.springBeans
+backend/.sts4-cache
+
+### NetBeans ###
+backend/nbproject/private/
+backend/nbbuild/
+backend/dist/
+backend/nbdist/
+backend/.nb-gradle/
+backend/build/
+!backend/**/src/main/**/build/
+!backend/**/src/test/**/build/
+
+# ===== Frontend (Node/Vite) =====
+frontend/logs
+frontend/*.log
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+frontend/pnpm-debug.log*
+frontend/lerna-debug.log*
+frontend/node_modules
+frontend/dist
+frontend/dist-ssr
+frontend/*.local
+
+# ===== Shared: Editor / IDE / OS files (apply everywhere) =====
+.idea
+.vscode/*
+!.vscode/extensions.json
+.DS_Store
+*.iws
+*.iml
+*.ipr
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
