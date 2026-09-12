@@ -13,12 +13,17 @@ import org.springframework.security.core.GrantedAuthority;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.stereotype.Component;
 
+@Component
 public class JwtProvider {
+	private final SecretKey key;
+
+	public JwtProvider(JwtConstant jwtConstant){
+		this.key=Keys.hmacShaKeyFor(jwtConstant.getSecretKey().getBytes());
+	}
 	
-	static SecretKey key=Keys.hmacShaKeyFor(JwtConstant.SECRET_KEY.getBytes());
-	
-	public static String generateToken(Authentication auth) {
+	public String generateToken(Authentication auth) {
 		
 		Collection<?extends GrantedAuthority> authorities = 
 				auth.getAuthorities();
@@ -36,7 +41,7 @@ public class JwtProvider {
 		
 	}
 	
-	public static String getEmailFromJwtToken(String jwt) {
+	public String getEmailFromJwtToken(String jwt) {
 		
 		jwt=jwt.substring(7);
 		Claims claims= Jwts.parserBuilder().setSigningKey(key).build()
@@ -45,8 +50,8 @@ public class JwtProvider {
 		return email;
 	}
 	
-	public static String populateAuthorities(
-			Collection<?extends GrantedAuthority> collection)
+	private String populateAuthorities(
+			Collection<? extends GrantedAuthority> collection)
 	{
 		Set<String> auths=new HashSet<>();
 		

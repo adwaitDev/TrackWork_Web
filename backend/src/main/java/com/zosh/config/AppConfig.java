@@ -23,6 +23,14 @@ import jakarta.servlet.http.HttpServletRequest;
 @EnableWebSecurity
 public class AppConfig {
 
+    // NEW: inject the JwtConstant bean
+    private final JwtConstant jwtConstant;
+
+    // NEW: constructor injection
+    public AppConfig(JwtConstant jwtConstant) {
+        this.jwtConstant = jwtConstant;
+    }
+
 	// Reads the property above; splits into a List<String>
 	@Value("${app.cors.allowed-origins}")
 	private List<String> allowedOrigins;
@@ -39,7 +47,7 @@ public class AppConfig {
 						.requestMatchers("/api/**").authenticated()
 						.anyRequest().permitAll()
 				)
-				.addFilterBefore(new JwtTokenValidator(), BasicAuthenticationFilter.class)
+				.addFilterBefore(new JwtTokenValidator(jwtConstant), BasicAuthenticationFilter.class)
 				.csrf(csrf -> csrf
 						.ignoringRequestMatchers("/h2-console/**")      // ✅ Fix 2: Disable CSRF for H2
 						.disable()

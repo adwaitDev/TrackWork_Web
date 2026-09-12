@@ -21,21 +21,30 @@ import com.zosh.repository.UserRepository;
 
 @Service
 public class UserServiceImplementation implements UserService {
-	@Autowired
-	private UserRepository userRepository;
-	@Autowired
-	private PasswordResetTokenRepository passwordResetTokenRepository;
-	@Autowired
-	private PasswordEncoder passwordEncoder;
-	@Autowired
-	private JavaMailSender javaMailSender;
+	private final UserRepository userRepository;
+	private final PasswordEncoder passwordEncoder;
+	private final JwtProvider jwtProvider;
+	private final PasswordResetTokenRepository passwordResetTokenRepository;
+	private final JavaMailSender javaMailSender;
+
+	// Standard constructor injection
+	public UserServiceImplementation(UserRepository userRepository, PasswordEncoder passwordEncoder,
+									 JwtProvider jwtProvider, PasswordResetTokenRepository passwordResetTokenRepository,
+									 JavaMailSender javaMailSender) {
+		this.userRepository = userRepository;
+		this.passwordEncoder = passwordEncoder;
+		this.jwtProvider = jwtProvider;
+		this.passwordResetTokenRepository = passwordResetTokenRepository;
+		this.javaMailSender = javaMailSender;
+	}
+
 
 //	@Autowired
 //	private ProjectService projectService;
 
 	@Override
 	public User findUserProfileByJwt(String jwt) throws UserException, ProjectException {
-		String email = JwtProvider.getEmailFromJwtToken(jwt);
+		String email = jwtProvider.getEmailFromJwtToken(jwt);
 
 		User user = userRepository.findByEmail(email);
 

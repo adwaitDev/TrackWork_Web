@@ -48,6 +48,11 @@ public class AuthController {
 	@Autowired
 	private SubscriptionRepository subscriptionRepository;
 
+	private final JwtProvider jwtProvider;
+
+	public AuthController(JwtProvider jwtProvider) {
+		this.jwtProvider = jwtProvider;
+	}
 	
 
 	@PostMapping("/signup")
@@ -82,7 +87,7 @@ public class AuthController {
 		Authentication authentication = new UsernamePasswordAuthenticationToken(email, password);
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 
-		String token = JwtProvider.generateToken(authentication);
+		String token = jwtProvider.generateToken(authentication);
 
 		AuthResponse authResponse = new AuthResponse();
 		authResponse.setJwt(token);
@@ -103,7 +108,7 @@ public class AuthController {
 		Authentication authentication = authenticate(username, password);
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 
-		String token = JwtProvider.generateToken(authentication);
+		String token = jwtProvider.generateToken(authentication);
 		AuthResponse authResponse = new AuthResponse();
 
 		authResponse.setMessage("Login Success");
