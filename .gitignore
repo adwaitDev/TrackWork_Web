@@ -53,3 +53,7 @@ frontend/.env.production
 *.njsproj
 *.sln
 *.sw?
+
+# ===== Root-level environment secrets =====
+.env.development
+.env.production
